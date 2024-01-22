@@ -3,28 +3,34 @@ using System.IO;
 using System.Collections.Generic;
 public class Journal
 {
-    private  List<Entry> _entries;
+    public  List<Entry> _entries = new List<Entry>();
 
-  //constructor for class Journal
-    public Journal()
-    {
-        _entries = new List<Entry>();
-    }
-   // it has problems 
+    //Add entry
     public void AddEntry()
     {
+        
         Entry newEntry = new Entry();
-        _entries.Add(newEntry);
+        string _date = newEntry.Date();
+        
+        string _prompt = newEntry.Prompt();
+        Console.WriteLine(_prompt);
+        string _response = newEntry.Response();
+        
+        
+       _entries.Add(newEntry);
+       
     }
-    //it has problems
-    public void DisplayJournal()
+        
+    //Display Entry
+    public void DisplayEntry()
+
     {
         foreach (Entry entry in _entries)
-        {
-            Console.WriteLine($"Date: {entry._date}-Prompt: {entry.Prompt}\nResponse: {entry.Response}\n");
+        {   
+            Console.WriteLine($"Date: {entry._date}-Prompt: {entry._prompt}\nResponse: {entry._response}\n");
         }
     }
-    //it works
+    //Save to File
     public void SaveToFile(string fileName)
     {
         Console.WriteLine("Saving to file...");
@@ -32,10 +38,10 @@ public class Journal
         {
             using(StreamWriter outputFile = new StreamWriter(fileName))
             {
-                List<Entry> _entries =new List<Entry>();
+                
                 foreach (Entry entry in _entries)
                 {
-                    outputFile.WriteLine($"{entry._date},{entry.Prompt},{entry.Response}");
+                    outputFile.WriteLine($"{entry._date}|{entry._prompt}|{entry._response}");
                 }
             }   
             Console.WriteLine($"Journal saved to {fileName} successfully.");
@@ -46,22 +52,24 @@ public class Journal
         } 
 
     }
-    //it works
+    //Load from File
     public void  LoadFromFile(string fileName)
     {
         Console.WriteLine("Reading from file...");
         try 
         {
-            _entries.Clear();
             using (StreamReader reader = new StreamReader(fileName))
             {
                 while(!reader.EndOfStream)
                 {
-                    string[] entryData = reader.ReadLine().Split(",");
-                    string _date = entryData[0];
-                    string _prompt = entryData[1];
-                    string _response = entryData[2];
+                    string[] entryData = reader.ReadLine().Split("|");
+                    string date = entryData[0];
+                    string prompt = entryData[1];
+                    string response = entryData[2];
                     Entry loadedEntry = new Entry();
+                    loadedEntry._date = date;
+                    loadedEntry._prompt = prompt;
+                    loadedEntry._response = response;
                     _entries.Add(loadedEntry);
                 }
             }
