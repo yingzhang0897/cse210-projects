@@ -2,6 +2,8 @@ using System;
 using System.IO;
 using System.Collections.Generic;
 
+//Exceeding:1. use "cases" instead of if statements in the main program
+//2. use try/catch in the SaveToFile and LoadFromFile Function in Journal.cs
 class Program
 {
    
