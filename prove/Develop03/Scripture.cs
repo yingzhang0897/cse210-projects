@@ -10,51 +10,52 @@ class Scripture
     public Scripture(Reference reference, string text)
     {
         _reference = reference;
-        //create a fucntion for parameter text to get a lsit of words
+        //call a method to get a lsit of word objects
         TurnTextInToList(text);
     }
-    //use a method to turn text into a list of words
+    //use a method to turn text into a list of word objects
     public void TurnTextInToList(string text)
     {
         string[] wordArray = text.Split(' ');
         foreach (string word in wordArray)
         {
-            _words.Add(new Word(word));//use Word cosntructor to create a list of Word objects
+            _words.Add(new Word(word));//use Word cosntructor to add each word object into List<Word>
         }
 
     }
-    //create method to hide random words from existing visible words
+    //hide random words from existing visible words
     public void HideRandomWords()
     {
-        //creating a new list of visible word objects from list _words where isHidden is false
-        var visibleWords = _words.FindAll(word => !word.IsHidden());
-        if(visibleWords.Count == 0)
-        {
-            Environment.Exit(0);//exit the program when all words are hidden
-        }
-        //select from 3 or existing visible words randomly to hide
         Random random = new Random();
-        int numberToHide = Math.Min(3,visibleWords.Count);
-        for (int i = 0; i < visibleWords.Count; i++)
-        {
-            int randomIndex = random.Next(numberToHide);
-            visibleWords[randomIndex].Hide();
-        }
-        //Display();  
+        int index1 = random.Next(_words.Count);
+        int index2 = random.Next(_words.Count);
+        //make sure two indexes are different
+       do
+       {
+        _words[index1].Hide();
+        _words[index2].Hide();
+       } while(index2 != index1);
+        
     }
     //check if all words are hiddden
     public bool AllWordsHidden()
     {
-        return _words.TrueForAll(word => word.IsHidden());
+       foreach(Word word in _words)
+       {
+            if( !word.IsHidden())
+            {return false;}
+       }
+       return true;
+        
     }
     //display scripture
     public void GetDisplayText()
     {
         Console.Clear();
         Console.WriteLine($"{_reference.GetDisplayText()}\n");
-        foreach (var word in _words)
+        foreach (Word w in _words)
         {
-            Console.WriteLine(word.GetDisplayText()+ " ");
+            Console.WriteLine(w.GetDisplayText()+ " ");
         }
         Console.WriteLine("\n");
     }

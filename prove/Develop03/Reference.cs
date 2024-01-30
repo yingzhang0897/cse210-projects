@@ -1,4 +1,4 @@
-// Class to represent a scripture reference (e.g., "John 3:16")
+
 class Reference
 {
     private string _book;

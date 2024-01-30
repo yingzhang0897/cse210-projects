@@ -18,9 +18,12 @@ class Word
     {
         _isHidden = false;
     }
-    public bool IsHidden()//did not understand firstly
+    public bool IsHidden()
     {
-        return _isHidden;
+        if(_text.Contains("_"))
+        {return true;}
+        else
+        {return false;}
     }
     public string GetDisplayText()
     {
