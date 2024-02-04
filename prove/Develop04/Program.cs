@@ -6,7 +6,10 @@ class Program
 {
     static void Main(string[] args)
     {
-        int activityCount = 0;
+        //keep tracking how many acitivities were performed
+        int breathingActivityCount = 0;
+        int reflectingActivityCount = 0;
+        int listingActivityCount = 0;
 
         while(true)
         {
@@ -31,23 +34,26 @@ class Program
                     break;
                 case 4:
                     Console.WriteLine("Goodbye!");
+                    Console.WriteLine($"\nYou tried {breathingActivityCount + reflectingActivityCount + listingActivityCount} activities.\n");
                     Environment.Exit(0);
                     break;
             }
-            //Keeping track of how many activities were performed.
+            
             if (activity != null)
             {
-                activityCount++;
-                Console.WriteLine($"\nActivity #{activityCount}\n");
                 if (activity is BreathingActivity breathingActivity)
                 {
                     breathingActivity.Run();
+                    breathingActivityCount++;
+
                 }else if(activity is ReflectingActivity reflectingActivity)
                 {
                     reflectingActivity.Run();
+                    reflectingActivityCount++;
                 }else if(activity is ListingActivity listingActivity)
                 {
                     listingActivity.Run();
+                    listingActivityCount++;
                 }
                 Console.WriteLine("\n------------------------\n");
             }
