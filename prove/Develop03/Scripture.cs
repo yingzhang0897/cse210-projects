@@ -4,8 +4,8 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 class Scripture
 {
-    private Reference _reference;
-    private List<Word> _words = new List<Word>();
+    protected Reference _reference;
+    protected List<Word> _words = new List<Word>();
     //constructor
     public Scripture(Reference reference, string text)
     {
@@ -23,20 +23,19 @@ class Scripture
         }
 
     }
-    //hide random words from existing visible words
-    public void HideRandomWords()
+    //hide random words
+    public void HideRandomWords(int numberOfWordsToHide)
+{
+    Random random = new Random();
+
+    for (int i = 0; i < numberOfWordsToHide; i++)
     {
-        Random random = new Random();
-        int index1 = random.Next(_words.Count);
-        int index2 = random.Next(_words.Count);
-        //make sure two indexes are different
-       do
-       {
-        _words[index1].Hide();
-        _words[index2].Hide();
-       } while(index2 != index1);
-        
+        int randomIndex = random.Next(_words.Count);
+        _words[randomIndex].Hide();
     }
+}
+
+
     //check if all words are hiddden
     public bool AllWordsHidden()
     {
@@ -49,14 +48,17 @@ class Scripture
         
     }
     //display scripture
-    public void GetDisplayText()
+    public void DisplayScripture()
     {
-        Console.Clear();
-        Console.WriteLine($"{_reference.GetDisplayText()}\n");
-        foreach (Word w in _words)
+        Console.Clear(); // Clear the console before displaying the scripture
+        Console.Write($"Scripture Reference: {_reference} ");
+
+        foreach (Word word in _words)
         {
-            Console.WriteLine(w.GetDisplayText()+ " ");
+            Console.Write(word.GetDisplayWord());
         }
-        Console.WriteLine("\n");
+
+        Console.WriteLine();
     }
+
 }

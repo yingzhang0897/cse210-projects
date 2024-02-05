@@ -20,12 +20,9 @@ class Word
     }
     public bool IsHidden()
     {
-        if(_text.Contains("_"))
-        {return true;}
-        else
-        {return false;}
+        return _isHidden;
     }
-    public string GetDisplayText()
+    public string GetDisplayWord()
     {
        return _isHidden ? new string('_', _text.Length) : _text;
     }

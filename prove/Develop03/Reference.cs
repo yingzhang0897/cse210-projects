@@ -1,3 +1,4 @@
+using System;
 
 class Reference
 {
@@ -6,26 +7,32 @@ class Reference
     private int _startVerse;
     private int _endVerse;
 
-    // Constructor for a single verse reference (e.g., "John 3:16")
+    // Constructors...
+
     public Reference(string book, int chapter, int startVerse)
     {
-       _book = book;
-       _chapter = chapter;
-       _startVerse = startVerse;
+        _book = book;
+        _chapter = chapter;
+        _startVerse = startVerse;
     }
 
-    // Constructor for a verse range reference (e.g., "Proverbs 3:5-6")
     public Reference(string book, int chapter, int startVerse, int endVerse)
     {
-       _book = book;
-       _chapter = chapter;
-       _startVerse = startVerse;
-       _endVerse = endVerse;
+        _book = book;
+        _chapter = chapter;
+        _startVerse = startVerse;
+        _endVerse = endVerse;
     }
 
-   public string GetDisplayText()
-   {
-        return $"{_book} {_chapter}: {_startVerse} - {_endVerse}";
-   }
-}
+    // Method to display the content of the reference object
+    public void DisplayReference()
+    {
+        Console.Write($"{_book} {_chapter}:{_startVerse}");
 
+        if (_endVerse > 0)
+        {
+            Console.Write($"-{_endVerse}");
+        }
+        Console.WriteLine();
+    }
+}

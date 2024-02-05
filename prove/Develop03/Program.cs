@@ -1,48 +1,41 @@
-using System;
-using System.IO;
-using System.Collections.Generic;
-
 class Program
 {
     static void Main()
     {
-        //read scriptures from a file
-        string filePath = "sources.txt";
-        string[] lines = File.ReadAllLines(filePath);
-        Random random = new Random();
-        int randomIndex = random.Next(lines.Length);
-        string randomLine = lines[randomIndex];
-
-        //parse random line into book, chapter, startVerse, endVerse, text by the 1st space and 2nd space
-        int firstSpaceIndex = randomLine.IndexOf(" ");
-        int secondSpaceIndex = randomLine.IndexOf(" ",firstSpaceIndex + 1);
-        string book = randomLine.Substring(0,firstSpaceIndex);
-        int chapter = int.Parse(randomLine.Substring(firstSpaceIndex +1 , 2));
-        int startVerse = int.Parse(randomLine.Substring(firstSpaceIndex + 4, 2));
-        //int endVerse = int.Parse(randomLine.Substring(firstSpaceIndex + 6, 2));
-        string text = randomLine.Substring(secondSpaceIndex + 1);
-
+       
+        ScriptureProcessor processor = new ScriptureProcessor(); 
+        string randomLine = processor.GetLineFromFile("sources.txt");//read from my local file and get a random line
         Console.WriteLine(randomLine);
+
         
-        do
+        // Hide words until all are hidden or the user types 'quit'
+        while (true)
         {
-            Console.WriteLine("Press Enter to hide words, or type 'quit' to exit.");
+            Console.WriteLine("Please press Enter to continue hiding words or type 'quit' to finish:");
             string userInput = Console.ReadLine();
 
             if (userInput.ToLower() == "quit")
             {
+                // User typed 'quit', end the program
+                Environment.Exit(0);
                 break;
             }
-            Reference reference = new Reference(book,chapter,startVerse);
-           // Reference reference2 = new Reference(book,chapter, startVerse,endVerse);
+
+            string text = processor.GetText(randomLine);//get the text part from the random line in file
+            Reference reference = processor.GetReference(randomLine);//get the reference part ffrom the random line in file
             Scripture scripture = new Scripture(reference,text);
-            scripture.HideRandomWords();
-        } while (!randomLine.Contains(" "));
+            scripture.HideRandomWords(3);// Hide 3 random words in the scripture
+            scripture.DisplayScripture();
 
-
-
+            if (scripture.AllWordsHidden())
+            {
+                // All words are hidden, end the program
+                Console.WriteLine("All words in the scripture are hidden. Program ends.");
+                Environment.Exit(0);
+                break;
+            }
+        }
+            
     }
 }
-
-
 
