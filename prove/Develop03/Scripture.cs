@@ -10,33 +10,46 @@ class Scripture
     public Scripture(Reference reference, string text)
     {
         _reference = reference;
-        //call a method to get a lsit of word objects
+        //call a method to get a list of word objects
         TurnTextInToList(text);
     }
     //use a method to turn text into a list of word objects
-    public void TurnTextInToList(string text)
+    public List<Word> TurnTextInToList(string text)
     {
+        // Split text by space 
         string[] wordArray = text.Split(' ');
         foreach (string word in wordArray)
         {
-            _words.Add(new Word(word));//use Word cosntructor to add each word object into List<Word>
+            _words.Add(new Word(word));//use Word constructor to add each word object into List<Word>
         }
+        return _words;
 
     }
-    //hide random words
-    public void HideRandomWords(int numberOfWordsToHide)
-{
-    Random random = new Random();
-
-    for (int i = 0; i < numberOfWordsToHide; i++)
+    
+    // Hide three words at a time until all words are hidden
+    public void HideRandomWords()
     {
-        int randomIndex = random.Next(_words.Count);
-        _words[randomIndex].Hide();
+        Random random = new Random();
+    
+        // Find three unique indices of words to hide
+        HashSet<int> indicesToHide = new HashSet<int>(); // Using HashSet for faster lookup
+        while (indicesToHide.Count < 3)
+        {
+            int randomIndex = random.Next(_words.Count);
+            if (!_words[randomIndex].IsHidden()) // Ensure the word isn't already hidden
+            {
+                indicesToHide.Add(randomIndex); // Add the index to the set
+            }
+        }
+        // Hide the selected words
+        foreach (int index in indicesToHide)
+        {
+            _words[index].Hide();
+        }
+    
     }
-}
 
-
-    //check if all words are hiddden
+    //check if all words are hidden
     public bool AllWordsHidden()
     {
        foreach(Word word in _words)
@@ -47,15 +60,15 @@ class Scripture
        return true;
         
     }
-    //display scripture
+    //display scripture     
     public void DisplayScripture()
     {
         Console.Clear(); // Clear the console before displaying the scripture
-        Console.Write($"Scripture Reference: {_reference} ");
+        _reference.DisplayReference();
 
         foreach (Word word in _words)
         {
-            Console.Write(word.GetDisplayWord());
+            Console.Write(word.GetDisplayWord()+ " ");
         }
 
         Console.WriteLine();

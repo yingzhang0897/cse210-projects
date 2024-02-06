@@ -1,41 +1,49 @@
+
+//creativity1: read from an external file to get a scripture
+//creativity2: select words that are not hidden yet to hide
 class Program
 {
     static void Main()
     {
-       
+       //read from a file and get a random line(include reference and text)
         ScriptureProcessor processor = new ScriptureProcessor(); 
         string randomLine = processor.GetLineFromFile("sources.txt");//read from my local file and get a random line
         Console.WriteLine(randomLine);
 
+        // then get the text part from the random line
+        string text = processor.GetText(randomLine);
+        //then get the reference part from the random line
+
+        //get instances of reference and scripture
+        Reference reference = processor.GetReference(randomLine);
+        Scripture scripture = new Scripture(reference,text);
+
         
-        // Hide words until all are hidden or the user types 'quit'
+        // main program
         while (true)
         {
             Console.WriteLine("Please press Enter to continue hiding words or type 'quit' to finish:");
             string userInput = Console.ReadLine();
-
+    
             if (userInput.ToLower() == "quit")
             {
                 // User typed 'quit', end the program
-                Environment.Exit(0);
+                Console.WriteLine("Program ends.");
                 break;
             }
-
-            string text = processor.GetText(randomLine);//get the text part from the random line in file
-            Reference reference = processor.GetReference(randomLine);//get the reference part ffrom the random line in file
-            Scripture scripture = new Scripture(reference,text);
-            scripture.HideRandomWords(3);// Hide 3 random words in the scripture
-            scripture.DisplayScripture();
-
-            if (scripture.AllWordsHidden())
+            //keep hiding words until all words are hidden
+            else
             {
-                // All words are hidden, end the program
-                Console.WriteLine("All words in the scripture are hidden. Program ends.");
-                Environment.Exit(0);
-                break;
+                scripture.HideRandomWords();// Hide 3 random words in the scripture
+                scripture.DisplayScripture();
+                if(scripture.AllWordsHidden())
+                {
+                    // All words are hidden, end the program
+                    Console.WriteLine("All words in the scripture are hidden. Program ends.");
+                    break;
+                }
             }
-        }
-            
+        }     
     }
 }
 
