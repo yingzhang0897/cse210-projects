@@ -2,21 +2,24 @@ public class SimpleGoal : Goal
 {
     private bool _isComplete;
    
-    public SimpleGoal(string name, string description, string points): base(name,description,points)
+    public SimpleGoal(string name, string description,int points): base(name,description,points)
     {
         _isComplete = false;
     }
-    public override void RecordEvent()
+    public override int RecordEvent()//mark that is has been accomplished another time;return the point value associated with recording the event
     {
-        
+       _isComplete = true;
+       return _points;
+
     }
+    
     public override bool IsComplete()
     {
-        return true;
+        return _isComplete;
     }
-    public override string GetStringRepresentation()
+    public override string GetStringRepresentation()// returns a string containing the pieces of data that I need for my object
     {
-       return " ";
+       return $"SimpleGoal:{_name}|{_description}|{_points}|{_isComplete}";
     }
 
 }

@@ -1,81 +1,84 @@
-//finished core requirement
-//creativity: Keeping track of how many activities were performed.
 using System;
+using System.IO;
+using System.Collections.Generic;
+using System.Threading.Tasks.Dataflow;
 
+//Exceeding:1. use "cases" instead of if statements in the main program
+//2. use try/catch in the SaveToFile and LoadFromFile Function in Journal.cs
 class Program
 {
+   
     static void Main(string[] args)
     {
        
-       
-        while(true)
+        while (true)
         {
-            Console.WriteLine("You have {} points.");
-             //design main menu
-            Console.WriteLine("Menu Options:");
-            Console.WriteLine("1. Create New Goal");
-            Console.WriteLine("2. List Goals");
-            Console.WriteLine("3. Save Goals");
-            Console.WriteLine("4. Load Goals");
-            Console.WriteLine("5. Record Event");// for eternal goals that are never complete, but each time the user records them, they gain some value.
-            Console.WriteLine("6. Quit");
-
-            Console.Write("Select a choice from the menu: ");
+            GoalManager goalManager = new GoalManager();
+            goalManager.Start();
             int choice = int.Parse(Console.ReadLine());
 
-            // Declare a list called _goals containing instances of the base class Goal
-            List<Goal> _goals = new List<Goal>();
-            // Add some instances of the derived classes to the list
-            _goals.Add(new SimpleGoal("Learn C#", new DateTime(2023, 12, 31)));
-            _goals.Add(new EternalGoal("Be happy"));
-            _goals.Add(new CheckListGoal("Travel the world", new List<string> { "Visit Japan", "See the Eiffel Tower", "Go to Disneyland" }));
-            // Show a loop iterating over the _goals list calling Display on each Goal
-            foreach (Goal goal in _goals)
-            {   
-                goal.Display();  
-                Console.WriteLine();
-            }
-           
-            //Activity activity = null;
-            switch (choice)
-            {
-                case 1:
-                   
+            //use switch statements to achieve menu functionality neatly
+           // switch (choice)
+            //{
+               // case 1: //Create a goal
+
+                  goalManager.CreateGoal();
+                  goalManager.ListGoalNames();
+                  goalManager.ListGoalDetails();
+                  goalManager.SaveGoals();
+                  //goalManager.LoadGoals();
+                  //goalManager.RecordEvent();
+
+                  /*  break;
+                case 2: //List goals
+                   goalManager.ListGoalDetails();
+
                     break;
-                case 2:
-                   
+                case 3: //Save goals to File
+                    goalManager.SaveGoals();
+    
                     break;
-                case 3:
-                  
+                case 4://Load goals from File
+                    goalManager.LoadGoals();
+                    break;
+                case 5://Record Event 
+                   
+                    goalManager.RecordEvent();
                     break;
                 case 6:
                     Console.WriteLine("Goodbye!");
-                    
                     Environment.Exit(0);
                     break;
-            }
-            Console.WriteLine("\nPress Enter to continue...");
-            Console.ReadLine();
-            
-            /*if (activity != null)
-            {
-                if (activity is BreathingActivity breathingActivity)
-                {
-                    breathingActivity.Run();
-                    breathingActivityCount++;
-
-                }else if(activity is ReflectingActivity reflectingActivity)
-                {
-                    reflectingActivity.Run();
-                    reflectingActivityCount++;
-                }else if(activity is ListingActivity listingActivity)
-                {
-                    listingActivity.Run();
-                    listingActivityCount++;
-                }
-                Console.WriteLine("\n------------------------\n");
             }*/
-
+    
         }
+      //testing simpleGoal
+        // SimpleGoal simpleGoal= new SimpleGoal("dance","dance 30 min",30);
+        // Console.WriteLine(simpleGoal.IsComplete());
+        //  Console.WriteLine(simpleGoal.RecordEvent());
+        // Console.WriteLine(simpleGoal.IsComplete());
+        // Console.WriteLine(simpleGoal.GetDetailString());
+        // Console.WriteLine(simpleGoal.GetStringRepresentation());
+
+        //testing eternalGoal
+        // EternalGoal eternalGoal= new EternalGoal("apply gospel","everyday",30);
+        // Console.WriteLine(eternalGoal.IsComplete());
+        // Console.WriteLine(eternalGoal.RecordEvent());
+        // Console.WriteLine(eternalGoal.IsComplete());
+        // Console.WriteLine(eternalGoal.GetDetailString());
+        // Console.WriteLine(eternalGoal.GetStringRepresentation());
+
+         //testing checklistGoal
+        // CheckListGoal checkListGoal= new CheckListGoal("go to temple","regularly",30,50,3);
+
+        // Console.WriteLine(checkListGoal.RecordEvent());
+        // Console.WriteLine(checkListGoal.IsComplete());
+        // Console.WriteLine(checkListGoal.RecordEvent());
+        // Console.WriteLine(checkListGoal.IsComplete());
+        // Console.WriteLine(checkListGoal.RecordEvent());
+        // Console.WriteLine(checkListGoal.IsComplete());
+       
+        // Console.WriteLine(checkListGoal.GetDetailString());
+        // Console.WriteLine(checkListGoal.GetStringRepresentation());
     }
 }
