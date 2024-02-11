@@ -1,1 +1,3 @@
+SimpleGoal:dance|dance 30 min|20|False
 EternalGoal:apply gospel|do gospel projects|100
+CheckListGoal:piano|play piano 5 times a week|20|100|0|5

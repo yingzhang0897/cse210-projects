@@ -65,17 +65,13 @@ public class GoalManager
                 string stringRepresentation = goal.GetStringRepresentation();
                 string[] parts = stringRepresentation.Split(':');
                 string goalName = parts[0];
-                for(int i = 0;i < _goals.Count; i++)
-                {
-                   
-                    Console.WriteLine($"{i+1}. {goalName}");
-                }
+                Console.WriteLine(goalName);
             }
         }
         public void ListGoalDetails()//Lists the details of each goal (including the checkbox of whether it is complete, name of the goal, short description, and in the case of check list goal, add" -- currently accomplished int/ int times" )
         {
             System.Console.WriteLine("Starting to Display List Goal");
-            foreach (Goal goal in _goals)//not working
+            foreach (Goal goal in _goals)
             {
                 Console.WriteLine(goal.GetDetailString());
             }
@@ -84,7 +80,6 @@ public class GoalManager
         {
            Console.Write("Enter the name of the file to save: ");
             string fileName = Console.ReadLine();
-            Console.WriteLine("Saving goals to file...");
             try
             {
                 using(StreamWriter outputFile = new StreamWriter(fileName))
@@ -101,37 +96,55 @@ public class GoalManager
                 Console.WriteLine($"Error saving Goals to file: {ex.Message}");
             } 
         }
-        // public void LoadGoals()//Loads the list of goals from a file
-        // {
-        //     Console.Write("Enter the name of the file to load: ");
-        //     string fileName = Console.ReadLine();
-        //     string[] lines = System.IO.File.ReadAllLines(fileName);
-
-        //         List<string> lines = new List<string>();
-        //         foreach (Goal goal in _goals)
-        //         {
-        //             lines.Add(goal.GetStringRepresentation());
-        //         }
-
-// Now stringRepresentations contains the string representations of each goal
-
-                        
-               
-            }
-                
+        public void LoadGoals()//Loads the list of goals from a file
+        {
+            Console.Write("Enter the name of the file to load: ");
+            string fileName = Console.ReadLine();
+            string[] lines = System.IO.File.ReadAllLines(fileName);
+            List<string> stringRepresentations = new List<string>();
+            foreach (string line in lines)
+            {
+                string[] parts = line.Split(':');
+                string goalName = parts[0];
+                string goalDetail = parts[1];
+                string[] parts2 = goalDetail.Split('|');
+                string name = parts2[0];
+                string description = parts2[1];
+                int points = int.Parse(parts2[2]);
+                switch (goalName)
+                {
+                    case "EternalGoal":
+                        // EternalGoal eternalGoal = new EternalGoal(name,description,points);
+                        // string repreEternal = eternalGoal.GetStringRepresentation();
+                        // stringRepresentations.Add(repreEternal);
+                        _goals.Add(new EternalGoal(name,description,points));
+                        break;
+                    case "SimpleGoal":
+                        bool isComplete = bool.Parse(parts2[3]);
+                        // SimpleGoal simpleGoal = new SimpleGoal(name,description,points);
+                        // string repreSimple= simpleGoal.GetStringRepresentation();
+                        // stringRepresentations.Add(repreSimple);
+                        _goals.Add(new SimpleGoal(name,description,points));
+                        break;
+                    case "CheckListGoal":
+                        int bonus = int.Parse(parts2[3]);
+                        int amountComplete = int.Parse(parts2[4]);
+                        int target = int.Parse(parts2[5]);
+                        // CheckListGoal checkListGoal = new CheckListGoal(name,description,points,bonus,target);
+                        // string repreCheckList = checkListGoal.GetStringRepresentation();
+                        // stringRepresentations.Add(repreCheckList);
+                        _goals.Add(new CheckListGoal(name,description,points,bonus,target));
+                        break;
+                }
+            }  
+            Console.WriteLine($"Goal loaded from {fileName} successfully. ");
         }
-            
-        
         public void RecordEvent()
         {
-          
             Console.WriteLine("Which goal did you accomplish?");
-            Console.WriteLine("  1. SimpleGoal");
-            Console.WriteLine("  2. EetrnalGoal");
-            Console.WriteLine("  3. CheckListGoal");
-
+            ListGoalNames();
             // get the score of that accomplished goal
-            int index = int.Parse(Console.ReadLine()) - 1;
+            int index = int.Parse(Console.ReadLine())-1;
             if (index >= 0 && index < _goals.Count)
             {
                 Goal goal = _goals[index];
