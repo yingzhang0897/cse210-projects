@@ -1,3 +1,6 @@
-SimpleGoal:dance|dance 30 min|20|False
-EternalGoal:apply gospel|do gospel projects|100
-CheckListGoal:piano|play piano 5 times a week|20|100|0|5
+80
+SimpleGoal:give a talk|on temple prep|20|True
+EternalGoal:go to temple|regularly|50
+CheckListGoal:dance|three times a week|15|30|3|3
+CheckListGoal:piano|three times a week|15|30|3|3
+SimpleGoal:finish ELE|due this week|20|True

@@ -1,3 +1,5 @@
+//creativity: add fireworks animation when finish a simple goal or finish a checklist goal
+
 using System;
 using System.IO;
 using System.Collections.Generic;
@@ -9,15 +11,16 @@ class Program
    
     static void Main(string[] args)
     {
+        GoalManager goalManager = new GoalManager();
        
         while (true)
         {
-            GoalManager goalManager = new GoalManager();
+            goalManager.DisplayPlayerInfo();
             goalManager.Start();
             int choice = int.Parse(Console.ReadLine());
 
             //use switch statements to achieve menu functionality neatly
-           /* switch (choice)
+           switch (choice)
             {
                 case 1: //Create a goal
                     goalManager.CreateGoal();
@@ -38,15 +41,8 @@ class Program
                     Console.WriteLine("Goodbye!");
                     Environment.Exit(0);
                     break;
-            }*/
-            goalManager.CreateGoal();
-            goalManager.CreateGoal();
-            goalManager.CreateGoal();
-            goalManager.ListGoalDetails();
-            goalManager.SaveGoals();
-            goalManager.LoadGoals();
-            goalManager.RecordEvent();
-    
+            }
+
         }
     }
 }
