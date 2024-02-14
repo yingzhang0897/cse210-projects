@@ -101,7 +101,7 @@ public class Swimming : Activity
 
     public override double GetPace()
     {
-        return _minutes /GetDistance();
+        return Math.Round(_minutes /GetDistance(),2);
     }
 
     public override string GetSummary()
