@@ -1,3 +1,5 @@
+//this program uses a base class: Event and three derived classes: Lecture, Reception and OutdoorGathering to show Inheritance
+// three derived classes inherit 3 methods from the base class and override 2 of them to display their unique Event details
 using System;
 
 // Address class to represent event addresses
